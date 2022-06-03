@@ -35,7 +35,8 @@ func hash(b *Block) ([]byte, error) {
 		return nil, err
 	}
 
-	return Sha256(buf.Bytes()), nil
+	h := sha256.Sum256(buf.Bytes())
+	return h[:], nil
 }
 
 func NewBlock(index uint64, data string, prevHash []byte) (*Block, error) {
@@ -59,12 +60,6 @@ func NewBlock(index uint64, data string, prevHash []byte) (*Block, error) {
 
 type Blockchain struct {
 	Chain []*Block `json:"chain"`
-}
-
-func Sha256(b []byte) []byte {
-	sha := sha256.New()
-	sha.Write(b)
-	return sha.Sum(nil)
 }
 
 func NewBlockchain() *Blockchain {
